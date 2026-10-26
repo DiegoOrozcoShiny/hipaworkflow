@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Academia HIPA · Ruta a diciembre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=Barlow:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#002aff; --green:#64dd00; --red:#ff0000;
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#f2f3f7; --ink:#000000; --ink-soft:#4a4d57;
+  --line:#d8dae3; --chip:#eceef5;
+  --f-head:'Barlow',sans-serif; --f-body:'Figtree',sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#07080d; --surface:#10121b; --surface-2:#171a26; --ink:#ffffff; --ink-soft:#a9adbd;
+    --line:#2a2e3e; --chip:#1c2030; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#07080d; --surface:#10121b; --surface-2:#171a26; --ink:#ffffff; --ink-soft:#a9adbd;
+  --line:#2a2e3e; --chip:#1c2030; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 16px 72px}
+h1,h2{font-family:var(--f-head);font-weight:800;letter-spacing:-.02em;margin:0}
+
+.top{background:var(--blue);color:#fff;border-radius:14px;padding:20px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.mark{width:46px;height:46px;flex:0 0 auto;color:#fff}
+.top h1{font-size:clamp(1.5rem,4.4vw,2.3rem);line-height:1}
+.top .sub{font-size:.82rem;opacity:.88;margin-top:5px;font-weight:600}
+.top .accent{color:var(--green)}
+.top-right{margin-left:auto;text-align:right;font-size:.78rem;opacity:.92;font-weight:700}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:10px;margin-top:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:13px 14px}
+.kpi.ok{border-left-color:var(--green)} .kpi.bad{border-left-color:var(--red)}
+.kpi .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);font-weight:700}
+.kpi .val{font-family:var(--f-head);font-size:1.85rem;line-height:1.05;margin-top:3px}
+.kpi .note{font-size:.74rem;color:var(--ink-soft);margin-top:2px;font-weight:600}
+.kpi .val .u{font-size:.85rem;color:var(--ink-soft);font-weight:700;font-family:var(--f-body)}
+.bar{height:7px;background:var(--chip);border-radius:4px;overflow:hidden;margin-top:9px}
+.bar span{display:block;height:100%;background:var(--blue)}
+.bar.g span{background:var(--green)}
+
+section{margin-top:22px}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.sec-h h2{font-size:1.06rem;text-transform:uppercase;letter-spacing:.04em}
+.sec-h .hint{font-size:.76rem;color:var(--ink-soft);font-weight:600}
+
+.alerts{display:grid;gap:8px}
+.alert{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:9px;padding:10px 13px;display:flex;gap:10px;align-items:flex-start;font-size:.86rem}
+.alert.warn{border-left-color:var(--blue)}
+.alert.lock{border-left-color:var(--ink-soft)}
+.alert .tagd{margin-left:auto;font-size:.72rem;font-weight:800;white-space:nowrap;color:var(--ink-soft)}
+.empty{background:var(--surface-2);border-radius:9px;padding:14px;font-size:.86rem;color:var(--ink-soft);font-weight:600}
+
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+svg.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;font-size:.76rem;font-weight:700;margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:5px}
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px;margin-top:14px}
+.inp{background:var(--surface-2);border-radius:8px;padding:8px}
+.inp label{display:block;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.inp .meta{font-size:.65rem;color:var(--ink-soft);font-weight:600}
+.inp input{width:100%;margin-top:3px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:6px;font-family:var(--f-head);font-size:1rem;font-weight:800;text-align:center}
+.inp input:focus{outline:2px solid var(--blue);outline-offset:1px}
+
+/* tabs */
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
+.tab{border:0;background:none;color:var(--ink-soft);font-family:var(--f-head);font-weight:800;font-size:.95rem;letter-spacing:.01em;padding:9px 15px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;text-transform:uppercase}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--blue)}
+.pane{display:none} .pane.on{display:block}
+
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.chipbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 13px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:var(--f-body)}
+.chipbtn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.chipbtn.alt[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#000}
+
+.week{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.week.now{border-color:var(--blue);border-width:2px}
+.wk-h{display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;background:none;border:0;width:100%;text-align:left;color:var(--ink);font-family:var(--f-body)}
+.wk-h:hover{background:var(--surface-2)}
+.wk-n{font-family:var(--f-head);font-size:1rem;font-weight:900;background:var(--blue);color:#fff;border-radius:7px;padding:4px 9px;flex:0 0 auto}
+.week.done .wk-n{background:var(--green);color:#000}
+.wk-t{font-weight:800;font-size:.92rem}
+.wk-d{font-size:.74rem;color:var(--ink-soft);font-weight:600}
+.wk-s{margin-left:auto;text-align:right;font-size:.74rem;color:var(--ink-soft);font-weight:700;flex:0 0 auto}
+.wk-body{padding:0 14px 12px;display:none}
+.week.open .wk-body{display:block}
+.car{margin-top:10px}
+.car-h{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);padding-bottom:5px;border-bottom:1px solid var(--line)}
+
+.task{display:flex;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line);align-items:flex-start}
+.task:last-child{border-bottom:0}
+.task .box{flex:0 0 auto;width:21px;height:21px;border:2px solid var(--line);border-radius:5px;background:var(--surface);cursor:pointer;margin-top:1px;display:flex;align-items:center;justify-content:center;padding:0}
+.task .box:hover{border-color:var(--blue)}
+.task .box[aria-checked="true"]{background:var(--green);border-color:var(--green)}
+.task .box svg{width:12px;height:12px;display:none}
+.task .box[aria-checked="true"] svg{display:block}
+.task .box[disabled]{cursor:not-allowed;opacity:.5}
+.task .body{flex:1;min-width:0}
+.task .ttl{font-weight:700;font-size:.9rem}
+.task.is-done .ttl{text-decoration:line-through;color:var(--ink-soft);font-weight:600}
+.task .det{font-size:.79rem;color:var(--ink-soft);margin-top:2px}
+.task .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;align-items:center}
+.tag{font-size:.67rem;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--chip);color:var(--ink-soft);white-space:nowrap}
+.tag.crit,.tag.late{background:var(--red);color:#fff}
+.tag.soon{background:var(--blue);color:#fff}
+.tag.dep{background:transparent;border:1px solid var(--line)}
+.tag.ok{background:var(--green);color:#000}
+
+/* calendario */
+.mon{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.mon h3{font-family:var(--f-head);font-size:1rem;text-transform:uppercase;letter-spacing:.05em;margin:0 0 9px;font-weight:900}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow{font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);text-align:center;padding-bottom:3px}
+.cell{background:var(--surface-2);border-radius:7px;min-height:78px;padding:5px;border:1px solid transparent}
+.cell.off{background:transparent;min-height:0;border:0}
+.cell.wkend{opacity:.72}
+.cell.today{border-color:var(--blue);border-width:2px}
+.cell .dnum{font-family:var(--f-head);font-weight:800;font-size:.78rem;color:var(--ink-soft);display:flex;justify-content:space-between;align-items:center;gap:4px}
+.cell.today .dnum{color:var(--blue)}
+.hito{font-size:.56rem;font-weight:900;background:var(--red);color:#fff;border-radius:3px;padding:1px 4px;text-transform:uppercase;letter-spacing:.03em}
+.ev{display:block;width:100%;text-align:left;margin-top:3px;font-size:.62rem;font-weight:700;line-height:1.25;border:0;border-left:3px solid var(--blue);background:var(--chip);color:var(--ink);border-radius:3px;padding:2px 4px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--f-body)}
+.ev.d{border-left-color:var(--green);text-decoration:line-through;color:var(--ink-soft)}
+.ev.l{border-left-color:var(--red)}
+.ev.b{opacity:.55;cursor:not-allowed}
+.calnote{font-size:.74rem;color:var(--ink-soft);font-weight:600;margin-bottom:10px}
+
+footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:.74rem;color:var(--ink-soft);font-weight:600;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#sync{font-weight:800}
+@media(max-width:620px){
+  .wrap{padding:12px 11px 60px}
+  .top{padding:16px}
+  .wk-s{width:100%;text-align:left;margin-left:0;padding-left:52px}
+  .wk-h{flex-wrap:wrap}
+  .cell{min-height:58px;padding:3px}
+  .ev{font-size:.55rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <svg class="mark" viewBox="0 0 5275 5164" aria-label="Academia HIPA" role="img">
+      <g fill="none" stroke="currentColor" stroke-width="242" stroke-linejoin="round">
+        <rect x="139"  y="121"  width="1690" height="1691" rx="118"/>
+        <rect x="1800" y="1740" width="1690" height="1692" rx="118"/>
+        <rect x="139"  y="3351" width="1690" height="1691" rx="118"/>
+        <rect x="3446" y="3351" width="1690" height="1691" rx="118"/>
+      </g>
+    </svg>
+    <div>
+      <h1>Ruta a <span class="accent">diciembre</span></h1>
+      <div class="sub">Academia HIPA · plataforma 100 % funcional al 31 de diciembre · venta en febrero</div>
+    </div>
+    <div class="top-right" id="today"></div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <div class="sec-h"><h2>Alertas</h2><span class="hint" id="alert-hint"></span></div>
+    <div class="alerts" id="alerts"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>Avance de plantillas</h2><span class="hint">Captura el acumulado real al cierre de cada semana</span></div>
+    <div class="chartbox">
+      <svg class="chart" id="chart" viewBox="0 0 720 240" role="img" aria-label="Avance de plantillas contra meta"></svg>
+      <div class="legend">
+        <span><i style="background:var(--blue)"></i>Meta acumulada</span>
+        <span><i style="background:var(--green)"></i>Real acumulado</span>
+      </div>
+      <div class="inputs" id="inputs"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-plan" aria-selected="true" aria-controls="pane-plan">Plan por semana</button>
+      <button class="tab" role="tab" id="tab-cal" aria-selected="false" aria-controls="pane-cal">Calendario</button>
+    </div>
+
+    <div class="pane on" id="pane-plan" role="tabpanel" aria-labelledby="tab-plan">
+      <div class="filters" id="filters"></div>
+      <div id="weeks"></div>
+    </div>
+
+    <div class="pane" id="pane-cal" role="tabpanel" aria-labelledby="tab-cal">
+      <div class="calnote">Cada tarea cae en su fecha de entrega. Clic en una tarea para marcarla cerrada. Rojo: vencida. Verde: cerrada. Tenue: bloqueada por una tarea previa.</div>
+      <div id="cal"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span id="sync">Cargando…</span>
+    <span>·</span>
+    <span>academiahipa.com.mx</span>
+    <span>·</span>
+    <button class="chipbtn" id="theme" type="button">Cambiar contraste</button>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var WEEKS = [
+  {n:1, t:"Montar el sistema",        a:"2026-10-27", b:"2026-11-02", meta:15},
+  {n:2, t:"Producción + Zacatecas",   a:"2026-11-03", b:"2026-11-09", meta:23},
+  {n:3, t:"Congreso ANPM",            a:"2026-11-10", b:"2026-11-16", meta:26},
+  {n:4, t:"Velocidad máxima",         a:"2026-11-17", b:"2026-11-23", meta:36},
+  {n:5, t:"Pricing y UX",             a:"2026-11-24", b:"2026-11-30", meta:46},
+  {n:6, t:"Carpeta comercial",        a:"2026-12-01", b:"2026-12-07", meta:56},
+  {n:7, t:"QA y simulacro de venta",  a:"2026-12-08", b:"2026-12-14", meta:66},
+  {n:8, t:"Cierre",                   a:"2026-12-15", b:"2026-12-21", meta:74},
+  {n:9, t:"Colchón",                  a:"2026-12-22", b:"2026-12-31", meta:74}
+];
+
+var CARRIL = {
+  PLT:"Plantillas", PLA:"Plataforma y UX", TAM:"Tamo",
+  COM:"Comercial y legal", CON:"Congreso ANPM", RED:"Redes y marca"
+};
+
+var T = [
+ {id:"p11",c:"PLT",w:1,o:"César + Julio",d:"2026-10-29",crit:1,t:"Definir el checklist de plantilla terminada",det:"Qué significa 100 %: problema detonador, exploración, ejercicios, video o PPT, teoría, carga en Lovable y enlaces probados. Sin este documento no hay forma de medir el avance."},
+ {id:"p12",c:"PLT",w:1,o:"César",d:"2026-10-31",dep:["p11"],t:"Auditar las 11 plantillas hechas y congelarlas",det:"Se miden contra el checklist, se cierran los pendientes y no se vuelven a abrir hasta enero."},
+ {id:"p13",c:"PLT",w:1,o:"César + Julio",d:"2026-10-31",dep:["p11"],t:"Agrupar las 63 restantes en bloques temáticos",det:"Diseñar por bloque, no plantilla por plantilla. 32 de 1.º, 21 de 2.º, 21 de 3.º."},
+ {id:"p15",c:"PLT",w:1,o:"Julio",d:"2026-11-02",dep:["p11"],t:"Crear el formato GeoGebra estándar",det:"Un esqueleto reutilizable para no construir cada applet desde cero."},
+ {id:"p17",c:"PLT",w:1,o:"César + Julio",d:"2026-11-02",crit:1,t:"Cronometrar 2 plantillas completas",det:"Dato que falta para saber si el ritmo de 10 por semana es posible o hay que contratar apoyo de ensamblaje."},
+ {id:"p18",c:"PLT",w:1,o:"Ing. Fernando",d:"2026-11-02",dep:["p11"],t:"Definir el flujo de carga a Lovable y prueba de enlaces"},
+ {id:"a11",c:"PLA",w:1,o:"Ing. Fernando",d:"2026-11-02",t:"Diagnóstico de UX por escrito, priorizado",det:"Qué está mal y qué pega directo en la demo de venta a un director."},
+ {id:"t11",c:"TAM",w:1,o:"Fernando Rocha hijo",d:"2026-11-02",t:"Lista cerrada de pendientes de Tamo",det:"Contenido faltante, límites del agente y plan de pruebas con alumnos."},
+ {id:"c11",c:"COM",w:1,o:"Diego",d:"2026-10-30",crit:1,t:"Arrancar la constitución de la sociedad con notario",det:"Sin RFC y sello digital no se le factura a ninguna escuela. El trámite tarda entre 4 y 8 semanas: si no sale esta semana, febrero no existe."},
+ {id:"c12",c:"COM",w:1,o:"Diego",d:"2026-11-02",crit:1,t:"Búsqueda fonética de HIPA y Tamo en IMPI",det:"Antes de volver a imprimir el nombre en todos los materiales."},
+ {id:"g11",c:"CON",w:1,o:"Diego",d:"2026-10-28",t:"Confirmar los nombres de las 2 conferencias de César"},
+ {id:"g12",c:"CON",w:1,o:"Equipo",d:"2026-11-02",dep:["g11"],t:"Esqueleto de las 6 intervenciones",det:"Taller de IA (Fernando y Diego), Acupuntura Matemática, tablas en traducción algebraica y contextualización (Dr. Edgar), 2 de César."},
+ {id:"g13",c:"CON",w:1,o:"Diego",d:"2026-11-02",crit:1,t:"Diseñar la estrategia de captura de leads",det:"Sin stand: QR en la última lámina de cada intervención hacia una landing que pida nombre, correo, escuela, puesto y estado. El campo escuela es el que convierte al docente en lead B2B."},
+ {id:"r11",c:"RED",w:1,o:"Diego",d:"2026-10-29",crit:1,t:"Planeación editorial de noviembre",det:"Ejes por audiencia: director en LinkedIn, docente en Instagram y Facebook, padre como validador."},
+ {id:"r12",c:"RED",w:1,o:"Diego",d:"2026-10-30",t:"Definir los pilares de contenido y el reparto por canal"},
+ {id:"r13",c:"RED",w:1,o:"Diego",d:"2026-10-31",t:"Editar los 6 reels de fundadores"},
+ {id:"r14",c:"RED",w:1,o:"Diego",d:"2026-11-02",dep:["c12"],t:"Migrar toda la comunicación a “Tamo”",det:"Hoy el material dice “Tutor IA 24/7”. Un solo nombre en todos lados."},
+ {id:"r15",c:"RED",w:1,o:"Diego",d:"2026-11-02",dep:["r11","r13"],crit:1,t:"Programar las publicaciones de la semana 2"},
+
+ {id:"p21",c:"PLT",w:2,o:"César + Julio",d:"2026-11-09",crit:1,dep:["p13","p15"],t:"8 plantillas cerradas · acumulado 23"},
+ {id:"p22",c:"PLT",w:2,o:"Diego",d:"2026-11-09",dep:["p21","p17"],crit:1,t:"Decisión sobre apoyo externo de ensamblaje",det:"Si no se llegó a 8, se contrata apoyo de GeoGebra, PPT y video esta misma semana. Esperar a diciembre es perder el año."},
+ {id:"a21",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la landing"},
+ {id:"a22",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la vista del maestro"},
+ {id:"a23",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la vista del alumno"},
+ {id:"t21",c:"TAM",w:2,o:"Fernando Rocha hijo",d:"2026-11-09",dep:["t11"],t:"Carga del contenido pendiente de Tamo"},
+ {id:"c21",c:"COM",w:2,o:"Lic. Rocha + Dr. Edgar",d:"2026-11-09",crit:1,t:"Lista nominal de las 30 escuelas del Edomex",det:"Nombre, director, contacto y vía de acceso: red del Dr. Edgar, referencia o frío."},
+ {id:"c22",c:"COM",w:2,o:"Diego",d:"2026-11-09",t:"Borrador del contrato de licenciamiento anual"},
+ {id:"c23",c:"COM",w:2,o:"Diego",d:"2026-11-09",dep:["c11"],t:"Seguimiento de notaría"},
+ {id:"g21",c:"CON",w:2,o:"Equipo",d:"2026-11-09",crit:1,dep:["g12"],t:"Las 6 intervenciones terminadas"},
+ {id:"g22",c:"CON",w:2,o:"Ing. Fernando",d:"2026-11-09",crit:1,dep:["g13"],t:"Landing de captura con QR en vivo"},
+ {id:"r21",c:"RED",w:2,o:"Diego",d:"2026-11-03",crit:1,dep:["r15"],t:"Arranque de publicación: primer reel de fundadores"},
+ {id:"r22",c:"RED",w:2,o:"Diego",d:"2026-11-09",t:"Activar los LinkedIn personales de los 6 socios",det:"Hoy solo existe el de Academia HIPA. El director está en LinkedIn, no en TikTok."},
+ {id:"r23",c:"RED",w:2,o:"Diego",d:"2026-11-09",dep:["r21"],t:"Publicar las 3 piezas restantes de la semana"},
+
+ {id:"p31",c:"PLT",w:3,o:"César + Julio",d:"2026-11-16",t:"3 plantillas · acumulado 26",det:"Semana de congreso: el bajón está planeado, no es atraso."},
+ {id:"g31",c:"CON",w:3,o:"Equipo",d:"2026-11-12",dep:["g21"],t:"Ensayo general de las 6 intervenciones"},
+ {id:"g32",c:"CON",w:3,o:"Equipo",d:"2026-11-14",crit:1,dep:["g21","g22"],t:"Congreso Nacional ANPM, Zacatecas",det:"1 000 docentes. No se vende la plataforma aquí: se siembra Comunidad HIPA y se capturan leads. El docente es quien después le dice al director que lo necesitan."},
+ {id:"g33",c:"CON",w:3,o:"Diego",d:"2026-11-16",dep:["g32"],crit:1,t:"Respaldo y limpieza de los leads capturados"},
+ {id:"r31",c:"RED",w:3,o:"Diego",d:"2026-11-14",dep:["g32"],t:"Cobertura en vivo del congreso"},
+ {id:"t31",c:"TAM",w:3,o:"Fernando Rocha hijo",d:"2026-11-16",crit:1,t:"Especificación del panel del maestro",det:"Hoy el maestro no ve nada de lo que el alumno le escribe a Tamo. Para un director eso es un hueco: avance por alumno, temas donde más se traba y alertas, sin exponer la conversación literal."},
+
+ {id:"p41",c:"PLT",w:4,o:"César + Julio",d:"2026-11-23",crit:1,dep:["p21"],t:"10 plantillas · cierra 1.º de secundaria (32/32)"},
+ {id:"p42",c:"PLT",w:4,o:"Ing. Fernando",d:"2026-11-23",dep:["p41","p18"],t:"Carga en Lovable y prueba de enlaces de 1.º"},
+ {id:"t41",c:"TAM",w:4,o:"Fernando Rocha hijo",d:"2026-11-23",dep:["t21"],crit:1,t:"Primera prueba de Tamo con alumnos reales"},
+ {id:"c41",c:"COM",w:4,o:"Diego + Lic. Rocha",d:"2026-11-23",dep:["g33","c21"],t:"Clasificar leads del congreso y cruzarlos contra las 30 escuelas"},
+ {id:"c42",c:"COM",w:4,o:"Diego",d:"2026-11-23",crit:1,dep:["c11"],t:"RFC y e.firma en proceso"},
+ {id:"a41",c:"PLA",w:4,o:"Diego",d:"2026-11-23",dep:["a21","a22","a23"],t:"Grabar la demo de venta en video"},
+ {id:"r41",c:"RED",w:4,o:"Diego",d:"2026-11-23",dep:["r31"],t:"Contenido de autoridad derivado del congreso"},
+
+ {id:"p51",c:"PLT",w:5,o:"César + Julio",d:"2026-11-30",crit:1,t:"10 plantillas · acumulado 46"},
+ {id:"a51",c:"PLA",w:5,o:"Ing. Fernando",d:"2026-11-30",crit:1,dep:["a21","a22","a23"],t:"Rediseño de UX desplegado en producción"},
+ {id:"t51",c:"TAM",w:5,o:"Fernando Rocha padre e hijo",d:"2026-11-30",dep:["t31","t41"],t:"Desarrollo del panel del maestro"},
+ {id:"c51",c:"COM",w:5,o:"Diego",d:"2026-11-30",crit:1,t:"Modelo de negocio y pricing cerrado",det:"Precio anual por escuela y por grupo, esquema de pago, descuento por volumen y punto de equilibrio."},
+ {id:"c52",c:"COM",w:5,o:"Diego",d:"2026-11-30",crit:1,t:"Documento de privacidad y seguridad del alumno",det:"Aviso de privacidad LFPDPPP, consentimiento de padres y política de contenido de Tamo. El director lo va a pedir."},
+ {id:"c53",c:"COM",w:5,o:"Diego",d:"2026-11-30",dep:["c12"],t:"Solicitud de registro de marca en IMPI"},
+ {id:"r51",c:"RED",w:5,o:"Diego",d:"2026-11-30",t:"Calendario editorial de diciembre y enero"},
+
+ {id:"p61",c:"PLT",w:6,o:"César + Julio",d:"2026-12-07",crit:1,t:"10 plantillas · cierra 2.º (53 acumulado)"},
+ {id:"t61",c:"TAM",w:6,o:"Fernando Rocha hijo",d:"2026-12-07",crit:1,dep:["t41","t51"],t:"Tamo al 100 %"},
+ {id:"c61",c:"COM",w:6,o:"Diego",d:"2026-12-07",crit:1,dep:["c51","c52","a41"],t:"Carpeta comercial completa",det:"Presentación para director, contrato, cotización, documento de privacidad y one-pager para el maestro."},
+ {id:"c62",c:"COM",w:6,o:"Lic. Rocha + Dr. Edgar",d:"2026-12-07",crit:1,dep:["c41"],t:"Agendar las visitas de enero",det:"En diciembre el director todavía contesta. El 7 de enero está sepultado."},
+ {id:"r61",c:"RED",w:6,o:"Diego",d:"2026-12-07",dep:["r22"],t:"Primeras piezas dirigidas a director en LinkedIn"},
+
+ {id:"p71",c:"PLT",w:7,o:"César + Julio",d:"2026-12-14",crit:1,t:"10 plantillas · acumulado 66"},
+ {id:"a71",c:"PLA",w:7,o:"Ing. Fernando",d:"2026-12-14",dep:["a51","t61"],t:"QA integral y prueba de carga de la plataforma"},
+ {id:"c71",c:"COM",w:7,o:"Lic. Rocha",d:"2026-12-14",dep:["c61"],t:"Simulacro de venta con los socios como director"},
+ {id:"r71",c:"RED",w:7,o:"Diego",d:"2026-12-14",t:"Teaser de apertura de inscripciones"},
+
+ {id:"p81",c:"PLT",w:8,o:"César + Julio",d:"2026-12-19",crit:1,dep:["p71"],t:"8 plantillas · 74/74 completas"},
+ {id:"p82",c:"PLT",w:8,o:"César",d:"2026-12-21",crit:1,dep:["p81"],t:"Revisión pedagógica final de las 74"},
+ {id:"p83",c:"PLT",w:8,o:"Ing. Fernando",d:"2026-12-21",crit:1,dep:["p82"],t:"Carga completa en Lovable y prueba de todos los enlaces"},
+ {id:"a81",c:"PLA",w:8,o:"Ing. Fernando",d:"2026-12-21",dep:["a71"],t:"Congelar la plataforma: solo corrección de errores"},
+ {id:"c81",c:"COM",w:8,o:"Diego",d:"2026-12-21",crit:1,dep:["c42"],t:"Facturación operativa: RFC y sello digital listos"},
+ {id:"c82",c:"COM",w:8,o:"Lic. Rocha",d:"2026-12-21",dep:["c62"],t:"Agenda de enero confirmada"},
+ {id:"x81",c:"COM",w:8,o:"Equipo",d:"2026-12-19",t:"Reunión de cierre de año y plan de enero"},
+
+ {id:"b91",c:"PLT",w:9,o:"Equipo",d:"2026-12-31",t:"Colchón: correcciones pendientes"},
+ {id:"b92",c:"PLA",w:9,o:"Equipo",d:"2026-12-31",crit:1,dep:["p83","a81","t61"],t:"Plataforma 100 % funcional"}
+];
+
+var HITOS = [
+  {d:"2026-11-14", t:"Congreso ANPM", s:"Congreso"},
+  {d:"2026-12-31", t:"Plataforma 100 %", s:"Entrega"},
+  {d:"2027-01-07", t:"Visitas a directores", s:"Visitas"},
+  {d:"2027-02-01", t:"Arranca la venta", s:"Venta"}
+];
+
+var MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+var MESESL = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+var DOW = ["L","M","M","J","V","S","D"];
+
+function d2(s){ var p=s.split("-"); return new Date(+p[0],+p[1]-1,+p[2]); }
+function today(){ var n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate()); }
+function days(a,b){ return Math.round((a-b)/86400000); }
+function fmt(s){ var x=d2(s); return x.getDate()+" "+MESES[x.getMonth()]; }
+function key(dt){ var m=dt.getMonth()+1,d=dt.getDate(); return dt.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(d<10?"0":"")+d; }
+
+var state={done:{},real:{}};
+var db=null, canWrite=true, saving=false, pending=false;
+var filterC="ALL", onlyOpen=false, onlyCrit=false, openWeeks={}, tab="plan";
+
+function isDone(id){ return !!state.done[id]; }
+function blockers(t){ return (t.dep||[]).filter(function(x){ return !isDone(x); }); }
+function title(id){ for(var i=0;i<T.length;i++) if(T[i].id===id) return T[i].t; return id; }
+function currentWeek(){ var n=today(); for(var i=0;i<WEEKS.length;i++){ if(n<=d2(WEEKS[i].b)) return WEEKS[i].n; } return 9; }
+function realUpTo(w){ var last=11; for(var i=1;i<=w;i++){ if(typeof state.real[i]==="number") last=state.real[i]; } return last; }
+
+var LS="hipa-ruta-dic-2026";
+function loadLocal(){ try{ var r=localStorage.getItem(LS); if(r){ var o=JSON.parse(r); state.done=o.done||{}; state.real=o.real||{}; } }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS,JSON.stringify(state)); }catch(e){} }
+function sync(m){ var e=document.getElementById("sync"); if(e) e.textContent=m; }
+
+function persist(){
+  saveLocal();
+  if(!db||!canWrite) return;
+  if(saving){ pending=true; return; }
+  saving=true;
+  db.doc("plan/estado").set({done:state.done,real:state.real}).then(function(){
+    saving=false; sync("Guardado y compartido con el equipo");
+    if(pending){ pending=false; persist(); }
+  }).catch(function(err){
+    saving=false; pending=false;
+    if(err && err.code==="invalid_argument"){ canWrite=false; sync("Solo lectura · tus cambios quedan en este dispositivo"); }
+    else sync("Sin guardar en la nube · guardado local");
+  });
+}
+
+function toggle(id){
+  var t=null; for(var i=0;i<T.length;i++) if(T[i].id===id) t=T[i];
+  if(!t) return;
+  if(!isDone(id) && blockers(t).length) return;
+  if(isDone(id)) delete state.done[id]; else state.done[id]=key(new Date());
+  persist(); renderAll();
+}
+
+function renderKpis(){
+  var n=today(), cw=currentWeek();
+  var plant=realUpTo(9), metaHoy=WEEKS[cw-1].meta, diff=plant-metaHoy;
+  var total=T.length, done=0, late=0;
+  T.forEach(function(t){ if(isDone(t.id)) done++; else if(d2(t.d)<n) late++; });
+  var pct=Math.round(done/total*100), pPct=Math.round(plant/74*100);
+  var h="";
+  h+='<div class="kpi '+(diff>=0?"ok":"bad")+'"><div class="lbl">Plantillas</div><div class="val">'+plant+' <span class="u">/ 74</span></div><div class="bar g"><span style="width:'+pPct+'%"></span></div><div class="note">'+(diff>=0?(diff===0?"Al día con la meta":"+"+diff+" sobre la meta"):Math.abs(diff)+" por debajo de la meta de la semana "+cw)+'</div></div>';
+  h+='<div class="kpi"><div class="lbl">Tareas cerradas</div><div class="val">'+done+' <span class="u">/ '+total+'</span></div><div class="bar"><span style="width:'+pct+'%"></span></div><div class="note">'+pct+' % del plan</div></div>';
+  h+='<div class="kpi '+(late>0?"bad":"ok")+'"><div class="lbl">Vencidas</div><div class="val">'+late+'</div><div class="note">'+(late>0?"Requieren decisión hoy":"Nada atrasado")+'</div></div>';
+  HITOS.forEach(function(x){
+    var dd=days(d2(x.d),n);
+    h+='<div class="kpi'+(dd<=14&&dd>=0?" bad":"")+'"><div class="lbl">'+x.t+'</div><div class="val">'+(dd<0?"✓":dd)+' <span class="u">'+(dd<0?"":"días")+'</span></div><div class="note">'+fmt(x.d)+'</div></div>';
+  });
+  document.getElementById("kpis").innerHTML=h;
+  document.getElementById("today").innerHTML="Hoy · "+n.getDate()+" "+MESES[n.getMonth()]+" "+n.getFullYear()+"<br>Semana "+cw+" de 9";
+}
+
+function renderAlerts(){
+  var n=today(), out=[];
+  T.forEach(function(t){ if(isDone(t.id)) return; var dd=days(d2(t.d),n);
+    if(dd<0) out.push({k:0,cls:"",txt:"<b>Vencida "+Math.abs(dd)+" d:</b> "+t.t+" · "+t.o,tag:fmt(t.d)}); });
+  T.forEach(function(t){ if(isDone(t.id)) return; var b=blockers(t);
+    if(b.length) out.push({k:1,cls:"lock",txt:"<b>Bloqueada:</b> "+t.t+" · espera “"+title(b[0])+"”",tag:fmt(t.d)}); });
+  T.forEach(function(t){ if(isDone(t.id)) return; var dd=days(d2(t.d),n);
+    if(dd>=0&&dd<=7) out.push({k:2,cls:"warn",txt:(t.crit?"<b>Crítica esta semana:</b> ":"<b>Vence en "+dd+" d:</b> ")+t.t+" · "+t.o,tag:fmt(t.d)}); });
+  out.sort(function(a,b){ return a.k-b.k; });
+  var el=document.getElementById("alerts");
+  document.getElementById("alert-hint").textContent=out.length?out.length+" avisos activos":"";
+  if(!out.length){ el.innerHTML='<div class="empty">Nada vencido, nada bloqueado y nada vence en los próximos 7 días.</div>'; return; }
+  el.innerHTML=out.slice(0,14).map(function(a){ return '<div class="alert '+a.cls+'"><div>'+a.txt+'</div><div class="tagd">'+a.tag+'</div></div>'; }).join("")
+    +(out.length>14?'<div class="empty">+'+(out.length-14)+' avisos más en el plan.</div>':"");
+}
+
+function renderChart(){
+  var W=720,H=240,L=38,R=14,Tp=16,B=30,iw=W-L-R,ih=H-Tp-B,max=80;
+  function x(i){ return L+iw*i/8; } function y(v){ return Tp+ih-ih*v/max; }
+  var s="";
+  [0,20,40,60,80].forEach(function(v){
+    s+='<line x1="'+L+'" y1="'+y(v)+'" x2="'+(W-R)+'" y2="'+y(v)+'" stroke="var(--line)" stroke-width="1"/>';
+    s+='<text x="'+(L-7)+'" y="'+(y(v)+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="var(--ink-soft)" font-family="Figtree,sans-serif">'+v+'</text>';
+  });
+  s+='<line x1="'+L+'" y1="'+y(74)+'" x2="'+(W-R)+'" y2="'+y(74)+'" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(W-R)+'" y="'+(y(74)-6)+'" text-anchor="end" font-size="11" font-weight="800" fill="var(--red)" font-family="Figtree,sans-serif">74 · meta final</text>';
+  s+='<polyline points="'+WEEKS.map(function(w,i){return x(i)+","+y(w.meta);}).join(" ")+'" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linejoin="round"/>';
+  var cw=currentWeek(), pts=[];
+  for(var i=1;i<=9;i++){ if(i>cw && typeof state.real[i]!=="number") break; pts.push(x(i-1)+","+y(realUpTo(i))); }
+  if(pts.length>1) s+='<polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--green)" stroke-width="3" stroke-linejoin="round"/>';
+  pts.forEach(function(p){ var c=p.split(","); s+='<circle cx="'+c[0]+'" cy="'+c[1]+'" r="3.5" fill="var(--green)"/>'; });
+  WEEKS.forEach(function(w,i){ s+='<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11" font-weight="800" fill="'+(w.n===cw?"var(--blue)":"var(--ink-soft)")+'" font-family="Figtree,sans-serif">S'+w.n+'</text>'; });
+  document.getElementById("chart").innerHTML=s;
+}
+
+function renderInputs(){
+  var cw=currentWeek();
+  document.getElementById("inputs").innerHTML=WEEKS.map(function(w){
+    var v=(typeof state.real[w.n]==="number")?state.real[w.n]:"";
+    return '<div class="inp"><label>S'+w.n+(w.n===cw?" · hoy":"")+'</label><input type="number" min="0" max="74" inputmode="numeric" data-w="'+w.n+'" value="'+v+'" placeholder="—" aria-label="Acumulado real semana '+w.n+'"><div class="meta">meta '+w.meta+'</div></div>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll("#inputs input"),function(i){
+    i.addEventListener("change",function(){
+      var w=+i.getAttribute("data-w"), v=i.value.trim();
+      if(v==="") delete state.real[w]; else state.real[w]=Math.max(0,Math.min(74,+v));
+      persist(); renderKpis(); renderChart();
+    });
+  });
+}
+
+function renderFilters(){
+  var f=[{k:"ALL",l:"Todo"}];
+  Object.keys(CARRIL).forEach(function(k){ f.push({k:k,l:CARRIL[k]}); });
+  var h=f.map(function(x){ return '<button class="chipbtn" type="button" data-f="'+x.k+'" aria-pressed="'+(filterC===x.k)+'">'+x.l+'</button>'; }).join("");
+  h+='<button class="chipbtn alt" type="button" data-t="open" aria-pressed="'+onlyOpen+'">Solo pendientes</button>';
+  h+='<button class="chipbtn alt" type="button" data-t="crit" aria-pressed="'+onlyCrit+'">Solo críticas</button>';
+  var el=document.getElementById("filters"); el.innerHTML=h;
+  Array.prototype.forEach.call(el.querySelectorAll("button"),function(b){
+    b.addEventListener("click",function(){
+      if(b.getAttribute("data-f")) filterC=b.getAttribute("data-f");
+      else if(b.getAttribute("data-t")==="open") onlyOpen=!onlyOpen; else onlyCrit=!onlyCrit;
+      renderFilters(); renderWeeks(); renderCal();
+    });
+  });
+}
+
+function taskHtml(t){
+  var n=today(), done=isDone(t.id), b=blockers(t), dd=days(d2(t.d),n);
+  var tags='<span class="tag">'+t.o+'</span>';
+  if(done) tags+='<span class="tag ok">Cerrada '+fmt(state.done[t.id])+'</span>';
+  else if(dd<0) tags+='<span class="tag late">Vencida '+Math.abs(dd)+' d</span>';
+  else if(dd<=7) tags+='<span class="tag soon">'+fmt(t.d)+' · '+dd+' d</span>';
+  else tags+='<span class="tag">'+fmt(t.d)+'</span>';
+  if(t.crit&&!done) tags+='<span class="tag crit">Crítica</span>';
+  b.forEach(function(x){ tags+='<span class="tag dep">🔒 '+title(x)+'</span>'; });
+  return '<div class="task'+(done?" is-done":"")+'">'+
+    '<button class="box" type="button" role="checkbox" aria-checked="'+done+'" data-id="'+t.id+'"'+((!done&&b.length)?' disabled title="Bloqueada por una tarea previa"':'')+'>'+
+    '<svg viewBox="0 0 16 16"><path d="M2 8.5l4 4 8-9" stroke="#000" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+    '<div class="body"><div class="ttl">'+t.t+'</div>'+(t.det?'<div class="det">'+t.det+'</div>':'')+'<div class="meta">'+tags+'</div></div></div>';
+}
+
+function pass(t){
+  if(filterC!=="ALL"&&t.c!==filterC) return false;
+  if(onlyOpen&&isDone(t.id)) return false;
+  if(onlyCrit&&!t.crit) return false;
+  return true;
+}
+
+function renderWeeks(){
+  var cw=currentWeek();
+  var h=WEEKS.map(function(w){
+    var all=T.filter(function(t){ return t.w===w.n; });
+    var shown=all.filter(pass);
+    var dn=all.filter(function(t){ return isDone(t.id); }).length;
+    var full=dn===all.length&&all.length>0;
+    var open=(w.n in openWeeks)?openWeeks[w.n]:(w.n===cw);
+    var cars={}; shown.forEach(function(t){ (cars[t.c]=cars[t.c]||[]).push(t); });
+    var body=Object.keys(CARRIL).filter(function(k){ return cars[k]; }).map(function(k){
+      return '<div class="car"><div class="car-h">'+CARRIL[k]+'</div>'+cars[k].map(taskHtml).join("")+'</div>';
+    }).join("")||'<div class="empty" style="margin-top:10px">Sin tareas con este filtro.</div>';
+    return '<div class="week'+(open?" open":"")+(w.n===cw?" now":"")+(full?" done":"")+'">'+
+      '<button class="wk-h" type="button" data-w="'+w.n+'" aria-expanded="'+open+'">'+
+      '<span class="wk-n">S'+w.n+'</span>'+
+      '<span><span class="wk-t">'+w.t+'</span><br><span class="wk-d">'+fmt(w.a)+' – '+fmt(w.b)+' · meta acumulada '+w.meta+' plantillas</span></span>'+
+      '<span class="wk-s">'+dn+'/'+all.length+' cerradas'+(w.n===cw?' · semana en curso':'')+'</span></button>'+
+      '<div class="wk-body">'+body+'</div></div>';
+  }).join("");
+  var el=document.getElementById("weeks"); el.innerHTML=h;
+  Array.prototype.forEach.call(el.querySelectorAll(".wk-h"),function(b){
+    b.addEventListener("click",function(){
+      var w=+b.getAttribute("data-w");
+      var cur=(w in openWeeks)?openWeeks[w]:(w===currentWeek());
+      openWeeks[w]=!cur; renderWeeks();
+    });
+  });
+  Array.prototype.forEach.call(el.querySelectorAll(".box"),function(b){
+    b.addEventListener("click",function(){ toggle(b.getAttribute("data-id")); });
+  });
+}
+
+function renderCal(){
+  var n=today(), byDay={}, hitoDay={};
+  T.filter(pass).forEach(function(t){ (byDay[t.d]=byDay[t.d]||[]).push(t); });
+  HITOS.forEach(function(x){ hitoDay[x.d]=x.s; });
+  var months=[[2026,9],[2026,10],[2026,11]];
+  var h=months.map(function(m){
+    var yy=m[0], mm=m[1];
+    var first=new Date(yy,mm,1), lead=(first.getDay()+6)%7;
+    var dim=new Date(yy,mm+1,0).getDate();
+    var cells="";
+    DOW.forEach(function(d){ cells+='<div class="dow">'+d+'</div>'; });
+    for(var i=0;i<lead;i++) cells+='<div class="cell off"></div>';
+    for(var d=1;d<=dim;d++){
+      var dt=new Date(yy,mm,d), k=key(dt), wd=(dt.getDay()+6)%7;
+      var evs=byDay[k]||[];
+      var inner='<div class="dnum"><span>'+d+'</span>'+(hitoDay[k]?'<span class="hito">'+hitoDay[k]+'</span>':'')+'</div>';
+      evs.forEach(function(t){
+        var done=isDone(t.id), b=blockers(t).length, late=!done&&d2(t.d)<n;
+        var cls=done?"d":(late?"l":(b?"b":""));
+        inner+='<button class="ev '+cls+'" type="button" data-id="'+t.id+'" title="'+t.t.replace(/"/g,"&quot;")+' · '+t.o+'">'+t.t+'</button>';
+      });
+      cells+='<div class="cell'+(wd>4?" wkend":"")+(k===key(n)?" today":"")+'">'+inner+'</div>';
+    }
+    return '<div class="mon"><h3>'+MESESL[mm]+' '+yy+'</h3><div class="cal">'+cells+'</div></div>';
+  }).join("");
+  var el=document.getElementById("cal"); el.innerHTML=h;
+  Array.prototype.forEach.call(el.querySelectorAll(".ev"),function(b){
+    b.addEventListener("click",function(){ toggle(b.getAttribute("data-id")); });
+  });
+}
+
+function renderAll(){ renderKpis(); renderAlerts(); renderChart(); renderWeeks(); renderCal(); }
+
+loadLocal();
+renderFilters(); renderInputs(); renderAll();
+sync("Guardado en este dispositivo");
+
+function setTab(which){
+  tab=which;
+  document.getElementById("tab-plan").setAttribute("aria-selected", which==="plan");
+  document.getElementById("tab-cal").setAttribute("aria-selected", which==="cal");
+  document.getElementById("pane-plan").className="pane"+(which==="plan"?" on":"");
+  document.getElementById("pane-cal").className="pane"+(which==="cal"?" on":"");
+}
+document.getElementById("tab-plan").addEventListener("click",function(){ setTab("plan"); });
+document.getElementById("tab-cal").addEventListener("click",function(){ setTab("cal"); });
+
+document.getElementById("theme").addEventListener("click",function(){
+  var r=document.documentElement;
+  var dark=getComputedStyle(r).getPropertyValue("--bg").trim().indexOf("#07")===0;
+  r.setAttribute("data-theme",dark?"light":"dark"); renderChart();
+});
+
+if(window.claude&&typeof window.claude.use==="function"){
+  window.claude.use("db").then(function(d){
+    if(!d) return;
+    db=d;
+    db.doc("plan/estado").onSnapshot(function(snap){
+      if(snap.exists){
+        var v=snap.data()||{};
+        state.done=v.done||{}; state.real=v.real||{};
+        saveLocal(); renderInputs(); renderAll();
+        sync(canWrite?"Sincronizado con el equipo":"Solo lectura · sincronizado");
+      } else {
+        sync("Sincronizado con el equipo");
+        if(Object.keys(state.done).length||Object.keys(state.real).length) persist();
+      }
+    },function(){ sync("Sin conexión con la nube · guardado local"); });
+  }).catch(function(){});
+  window.claude.use("user").then(function(u){
+    if(!u) return;
+    Promise.resolve(u.can?u.can("data.write"):null).then(function(ok){
+      if(ok===false){ canWrite=false; sync("Solo lectura · tus cambios quedan en este dispositivo"); }
+    }).catch(function(){});
+  }).catch(function(){});
+}
+})();
+</script>
+</body>
+</html>
