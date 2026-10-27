@@ -13,19 +13,10 @@
   --bg:#ffffff; --surface:#ffffff; --surface-2:#f2f3f7; --ink:#000000; --ink-soft:#4a4d57;
   --line:#d8dae3; --chip:#eceef5;
   --f-head:'Barlow',sans-serif; --f-body:'Figtree',sans-serif;
+  color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#07080d; --surface:#10121b; --surface-2:#171a26; --ink:#ffffff; --ink-soft:#a9adbd;
-    --line:#2a2e3e; --chip:#1c2030; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#07080d; --surface:#10121b; --surface-2:#171a26; --ink:#ffffff; --ink-soft:#a9adbd;
-  --line:#2a2e3e; --chip:#1c2030; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -84,6 +75,9 @@ svg.chart{width:100%;height:auto;display:block}
 .chipbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 13px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:var(--f-body)}
 .chipbtn[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
 .chipbtn.alt[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#000}
+.chipbtn b{font-weight:800;opacity:.6;font-size:.72rem}
+.chipbtn[aria-pressed="true"] b{opacity:.85}
+.flab{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);align-self:center;margin-right:2px}
 
 .week{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .week.now{border-color:var(--blue);border-width:2px}
@@ -207,8 +201,6 @@ footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-si
     <span id="sync">Cargando…</span>
     <span>·</span>
     <span>academiahipa.com.mx</span>
-    <span>·</span>
-    <button class="chipbtn" id="theme" type="button">Cambiar contraste</button>
   </footer>
 </div>
 
@@ -234,23 +226,29 @@ var CARRIL = {
 };
 
 var T = [
- {id:"p11",c:"PLT",w:1,o:"César + Julio",d:"2026-10-29",crit:1,t:"Definir el checklist de plantilla terminada",det:"Qué significa 100 %: problema detonador, exploración, ejercicios, video o PPT, teoría, carga en Lovable y enlaces probados. Sin este documento no hay forma de medir el avance."},
+ {id:"v11",c:"PLT",w:1,o:"Julio + César + Lic. Rocha + Diego",d:"2026-10-27",crit:1,t:"Junta de vibe coding: construir los agentes de producción",det:"Crear agentes que automaticen y homologuen la creación de plantillas para que César, Julio y el Dr. Edgar produzcan con el mismo estándar. Es la palanca que vuelve alcanzable el ritmo de 10 plantillas por semana."},
+ {id:"v12",c:"PLT",w:1,o:"Julio",d:"2026-10-29",crit:1,dep:["v11"],t:"Entregar los HTML base para los agentes",det:"Geoplano, calculadora Gasspel, regletas y generador de exámenes. Son los insumos que los agentes reutilizan en cada plantilla en lugar de rehacerlos."},
+ {id:"e11",c:"PLT",w:1,o:"Dr. Edgar",d:"2026-10-28",crit:1,t:"Definir la personalidad del Método HIPA: el eje transversal didáctico",det:"El eje que atraviesa las 74 plantillas y les da coherencia: fundamento en teorías educativas y explicación del sistema completo. Va primero porque es lo que define qué debe contener una plantilla, y es el argumento académico que sostiene la venta frente a un director."},
+ {id:"p11",c:"PLT",w:1,o:"César + Julio",d:"2026-10-29",crit:1,dep:["e11","v11"],t:"Definir el checklist de plantilla terminada",det:"Qué significa 100 %: problema detonador, exploración, ejercicios, video o PPT, teoría, carga en Lovable y enlaces probados. Sin este documento no hay forma de medir el avance."},
  {id:"p12",c:"PLT",w:1,o:"César",d:"2026-10-31",dep:["p11"],t:"Auditar las 11 plantillas hechas y congelarlas",det:"Se miden contra el checklist, se cierran los pendientes y no se vuelven a abrir hasta enero."},
  {id:"p13",c:"PLT",w:1,o:"César + Julio",d:"2026-10-31",dep:["p11"],t:"Agrupar las 63 restantes en bloques temáticos",det:"Diseñar por bloque, no plantilla por plantilla. 32 de 1.º, 21 de 2.º, 21 de 3.º."},
  {id:"p15",c:"PLT",w:1,o:"Julio",d:"2026-11-02",dep:["p11"],t:"Crear el formato GeoGebra estándar",det:"Un esqueleto reutilizable para no construir cada applet desde cero."},
  {id:"p17",c:"PLT",w:1,o:"César + Julio",d:"2026-11-02",crit:1,t:"Cronometrar 2 plantillas completas",det:"Dato que falta para saber si el ritmo de 10 por semana es posible o hay que contratar apoyo de ensamblaje."},
  {id:"p18",c:"PLT",w:1,o:"Ing. Fernando",d:"2026-11-02",dep:["p11"],t:"Definir el flujo de carga a Lovable y prueba de enlaces"},
  {id:"a11",c:"PLA",w:1,o:"Ing. Fernando",d:"2026-11-02",t:"Diagnóstico de UX por escrito, priorizado",det:"Qué está mal y qué pega directo en la demo de venta a un director."},
- {id:"t11",c:"TAM",w:1,o:"Fernando Rocha hijo",d:"2026-11-02",t:"Lista cerrada de pendientes de Tamo",det:"Contenido faltante, límites del agente y plan de pruebas con alumnos."},
+ {id:"t11",c:"TAM",w:1,o:"Ing. Fernando",d:"2026-11-02",t:"Lista cerrada de pendientes de Tamo",det:"Contenido faltante, límites del agente y plan de pruebas con alumnos."},
  {id:"c11",c:"COM",w:1,o:"Diego",d:"2026-10-30",crit:1,t:"Arrancar la constitución de la sociedad con notario",det:"Sin RFC y sello digital no se le factura a ninguna escuela. El trámite tarda entre 4 y 8 semanas: si no sale esta semana, febrero no existe."},
  {id:"c12",c:"COM",w:1,o:"Diego",d:"2026-11-02",crit:1,t:"Búsqueda fonética de HIPA y Tamo en IMPI",det:"Antes de volver a imprimir el nombre en todos los materiales."},
  {id:"g11",c:"CON",w:1,o:"Diego",d:"2026-10-28",t:"Confirmar los nombres de las 2 conferencias de César"},
- {id:"g12",c:"CON",w:1,o:"Equipo",d:"2026-11-02",dep:["g11"],t:"Esqueleto de las 6 intervenciones",det:"Taller de IA (Fernando y Diego), Acupuntura Matemática, tablas en traducción algebraica y contextualización (Dr. Edgar), 2 de César."},
+ {id:"g14",c:"CON",w:1,o:"Dr. Edgar",d:"2026-10-30",crit:1,t:"Compartir sus ponencias a Diego",det:"Las tres intervenciones del Dr. Edgar pasan a Diego para unificar formato, cierre y QR de captura."},
+ {id:"g15",c:"CON",w:1,o:"Julio",d:"2026-10-30",t:"Entregar los manuales en PDF a Edgar y Diego"},
+ {id:"g12",c:"CON",w:1,o:"Equipo",d:"2026-11-02",dep:["g11","g14"],t:"Esqueleto de las 6 intervenciones",det:"Taller de IA (Fernando y Diego), Acupuntura Matemática, tablas en traducción algebraica y contextualización (Dr. Edgar), 2 de César."},
  {id:"g13",c:"CON",w:1,o:"Diego",d:"2026-11-02",crit:1,t:"Diseñar la estrategia de captura de leads",det:"Sin stand: QR en la última lámina de cada intervención hacia una landing que pida nombre, correo, escuela, puesto y estado. El campo escuela es el que convierte al docente en lead B2B."},
  {id:"r11",c:"RED",w:1,o:"Diego",d:"2026-10-29",crit:1,t:"Planeación editorial de noviembre",det:"Ejes por audiencia: director en LinkedIn, docente en Instagram y Facebook, padre como validador."},
  {id:"r12",c:"RED",w:1,o:"Diego",d:"2026-10-30",t:"Definir los pilares de contenido y el reparto por canal"},
  {id:"r13",c:"RED",w:1,o:"Diego",d:"2026-10-31",t:"Editar los 6 reels de fundadores"},
  {id:"r14",c:"RED",w:1,o:"Diego",d:"2026-11-02",dep:["c12"],t:"Migrar toda la comunicación a “Tamo”",det:"Hoy el material dice “Tutor IA 24/7”. Un solo nombre en todos lados."},
+ {id:"r16",c:"RED",w:1,o:"Dr. Edgar",d:"2026-11-02",crit:1,dep:["e11"],t:"Decálogo HIPA: sección de redes a cargo del Dr. Edgar",det:"Los diez principios del Método HIPA convertidos en serie de contenido. Autoría y responsabilidad 100 % del Dr. Edgar; se desprende del eje transversal didáctico."},
  {id:"r15",c:"RED",w:1,o:"Diego",d:"2026-11-02",dep:["r11","r13"],crit:1,t:"Programar las publicaciones de la semana 2"},
 
  {id:"p21",c:"PLT",w:2,o:"César + Julio",d:"2026-11-09",crit:1,dep:["p13","p15"],t:"8 plantillas cerradas · acumulado 23"},
@@ -258,10 +256,11 @@ var T = [
  {id:"a21",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la landing"},
  {id:"a22",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la vista del maestro"},
  {id:"a23",c:"PLA",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["a11"],t:"Rediseño de la vista del alumno"},
- {id:"t21",c:"TAM",w:2,o:"Fernando Rocha hijo",d:"2026-11-09",dep:["t11"],t:"Carga del contenido pendiente de Tamo"},
+ {id:"t21",c:"TAM",w:2,o:"Ing. Fernando",d:"2026-11-09",dep:["t11"],t:"Carga del contenido pendiente de Tamo"},
  {id:"c21",c:"COM",w:2,o:"Lic. Rocha + Dr. Edgar",d:"2026-11-09",crit:1,t:"Lista nominal de las 30 escuelas del Edomex",det:"Nombre, director, contacto y vía de acceso: red del Dr. Edgar, referencia o frío."},
  {id:"c22",c:"COM",w:2,o:"Diego",d:"2026-11-09",t:"Borrador del contrato de licenciamiento anual"},
  {id:"c23",c:"COM",w:2,o:"Diego",d:"2026-11-09",dep:["c11"],t:"Seguimiento de notaría"},
+ {id:"g16",c:"CON",w:2,o:"Dr. Edgar + Diego",d:"2026-11-09",crit:1,dep:["g15","g13"],t:"Preparar los manuales de regalo del congreso",det:"Material impreso para los 1 000 docentes, armado sobre los PDF de Julio. Debe llevar el QR de captura de leads en portada o contraportada: el manual es el pretexto, el correo con la escuela es el objetivo."},
  {id:"g21",c:"CON",w:2,o:"Equipo",d:"2026-11-09",crit:1,dep:["g12"],t:"Las 6 intervenciones terminadas"},
  {id:"g22",c:"CON",w:2,o:"Ing. Fernando",d:"2026-11-09",crit:1,dep:["g13"],t:"Landing de captura con QR en vivo"},
  {id:"r21",c:"RED",w:2,o:"Diego",d:"2026-11-03",crit:1,dep:["r15"],t:"Arranque de publicación: primer reel de fundadores"},
@@ -273,11 +272,11 @@ var T = [
  {id:"g32",c:"CON",w:3,o:"Equipo",d:"2026-11-14",crit:1,dep:["g21","g22"],t:"Congreso Nacional ANPM, Zacatecas",det:"1 000 docentes. No se vende la plataforma aquí: se siembra Comunidad HIPA y se capturan leads. El docente es quien después le dice al director que lo necesitan."},
  {id:"g33",c:"CON",w:3,o:"Diego",d:"2026-11-16",dep:["g32"],crit:1,t:"Respaldo y limpieza de los leads capturados"},
  {id:"r31",c:"RED",w:3,o:"Diego",d:"2026-11-14",dep:["g32"],t:"Cobertura en vivo del congreso"},
- {id:"t31",c:"TAM",w:3,o:"Fernando Rocha hijo",d:"2026-11-16",crit:1,t:"Especificación del panel del maestro",det:"Hoy el maestro no ve nada de lo que el alumno le escribe a Tamo. Para un director eso es un hueco: avance por alumno, temas donde más se traba y alertas, sin exponer la conversación literal."},
+ {id:"t31",c:"TAM",w:3,o:"Ing. Fernando",d:"2026-11-16",crit:1,t:"Especificación del panel del maestro",det:"Hoy el maestro no ve nada de lo que el alumno le escribe a Tamo. Para un director eso es un hueco: avance por alumno, temas donde más se traba y alertas, sin exponer la conversación literal."},
 
  {id:"p41",c:"PLT",w:4,o:"César + Julio",d:"2026-11-23",crit:1,dep:["p21"],t:"10 plantillas · cierra 1.º de secundaria (32/32)"},
  {id:"p42",c:"PLT",w:4,o:"Ing. Fernando",d:"2026-11-23",dep:["p41","p18"],t:"Carga en Lovable y prueba de enlaces de 1.º"},
- {id:"t41",c:"TAM",w:4,o:"Fernando Rocha hijo",d:"2026-11-23",dep:["t21"],crit:1,t:"Primera prueba de Tamo con alumnos reales"},
+ {id:"t41",c:"TAM",w:4,o:"Ing. Fernando",d:"2026-11-23",dep:["t21"],crit:1,t:"Primera prueba de Tamo con alumnos reales"},
  {id:"c41",c:"COM",w:4,o:"Diego + Lic. Rocha",d:"2026-11-23",dep:["g33","c21"],t:"Clasificar leads del congreso y cruzarlos contra las 30 escuelas"},
  {id:"c42",c:"COM",w:4,o:"Diego",d:"2026-11-23",crit:1,dep:["c11"],t:"RFC y e.firma en proceso"},
  {id:"a41",c:"PLA",w:4,o:"Diego",d:"2026-11-23",dep:["a21","a22","a23"],t:"Grabar la demo de venta en video"},
@@ -285,14 +284,14 @@ var T = [
 
  {id:"p51",c:"PLT",w:5,o:"César + Julio",d:"2026-11-30",crit:1,t:"10 plantillas · acumulado 46"},
  {id:"a51",c:"PLA",w:5,o:"Ing. Fernando",d:"2026-11-30",crit:1,dep:["a21","a22","a23"],t:"Rediseño de UX desplegado en producción"},
- {id:"t51",c:"TAM",w:5,o:"Fernando Rocha padre e hijo",d:"2026-11-30",dep:["t31","t41"],t:"Desarrollo del panel del maestro"},
+ {id:"t51",c:"TAM",w:5,o:"Ing. Fernando",d:"2026-11-30",dep:["t31","t41"],t:"Desarrollo del panel del maestro"},
  {id:"c51",c:"COM",w:5,o:"Diego",d:"2026-11-30",crit:1,t:"Modelo de negocio y pricing cerrado",det:"Precio anual por escuela y por grupo, esquema de pago, descuento por volumen y punto de equilibrio."},
  {id:"c52",c:"COM",w:5,o:"Diego",d:"2026-11-30",crit:1,t:"Documento de privacidad y seguridad del alumno",det:"Aviso de privacidad LFPDPPP, consentimiento de padres y política de contenido de Tamo. El director lo va a pedir."},
  {id:"c53",c:"COM",w:5,o:"Diego",d:"2026-11-30",dep:["c12"],t:"Solicitud de registro de marca en IMPI"},
  {id:"r51",c:"RED",w:5,o:"Diego",d:"2026-11-30",t:"Calendario editorial de diciembre y enero"},
 
  {id:"p61",c:"PLT",w:6,o:"César + Julio",d:"2026-12-07",crit:1,t:"10 plantillas · cierra 2.º (53 acumulado)"},
- {id:"t61",c:"TAM",w:6,o:"Fernando Rocha hijo",d:"2026-12-07",crit:1,dep:["t41","t51"],t:"Tamo al 100 %"},
+ {id:"t61",c:"TAM",w:6,o:"Ing. Fernando",d:"2026-12-07",crit:1,dep:["t41","t51"],t:"Tamo al 100 %"},
  {id:"c61",c:"COM",w:6,o:"Diego",d:"2026-12-07",crit:1,dep:["c51","c52","a41"],t:"Carpeta comercial completa",det:"Presentación para director, contrato, cotización, documento de privacidad y one-pager para el maestro."},
  {id:"c62",c:"COM",w:6,o:"Lic. Rocha + Dr. Edgar",d:"2026-12-07",crit:1,dep:["c41"],t:"Agendar las visitas de enero",det:"En diciembre el director todavía contesta. El 7 de enero está sepultado."},
  {id:"r61",c:"RED",w:6,o:"Diego",d:"2026-12-07",dep:["r22"],t:"Primeras piezas dirigidas a director en LinkedIn"},
@@ -321,6 +320,16 @@ var HITOS = [
   {d:"2027-02-01", t:"Arranca la venta", s:"Venta"}
 ];
 
+var PERSONAS = [
+  {k:"Diego",   l:"Diego",        m:["Diego"]},
+  {k:"Cesar",   l:"César",        m:["César"]},
+  {k:"Julio",   l:"Julio",        m:["Julio"]},
+  {k:"Edgar",   l:"Dr. Edgar",    m:["Edgar"]},
+  {k:"IngF",    l:"Ing. Fernando",m:["Ing. Fernando"]},
+  {k:"LicR",    l:"Lic. Rocha",   m:["Lic. Rocha"]},
+  {k:"Equipo",  l:"Equipo",       m:["Equipo"]}
+];
+
 var MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 var MESESL = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 var DOW = ["L","M","M","J","V","S","D"];
@@ -333,7 +342,7 @@ function key(dt){ var m=dt.getMonth()+1,d=dt.getDate(); return dt.getFullYear()+
 
 var state={done:{},real:{}};
 var db=null, canWrite=true, saving=false, pending=false;
-var filterC="ALL", onlyOpen=false, onlyCrit=false, openWeeks={}, tab="plan";
+var filterC="ALL", filterP="ALL", onlyOpen=false, onlyCrit=false, openWeeks={}, tab="plan";
 
 function isDone(id){ return !!state.done[id]; }
 function blockers(t){ return (t.dep||[]).filter(function(x){ return !isDone(x); }); }
@@ -443,10 +452,17 @@ function renderFilters(){
   var h=f.map(function(x){ return '<button class="chipbtn" type="button" data-f="'+x.k+'" aria-pressed="'+(filterC===x.k)+'">'+x.l+'</button>'; }).join("");
   h+='<button class="chipbtn alt" type="button" data-t="open" aria-pressed="'+onlyOpen+'">Solo pendientes</button>';
   h+='<button class="chipbtn alt" type="button" data-t="crit" aria-pressed="'+onlyCrit+'">Solo críticas</button>';
+  h+='</div><div class="filters"><span class="flab">Responsable</span>';
+  h+='<button class="chipbtn" type="button" data-p="ALL" aria-pressed="'+(filterP==="ALL")+'">Todos</button>';
+  PERSONAS.forEach(function(x){
+    var ab=T.filter(function(t){ return esDe(t,x.k)&&!isDone(t.id); }).length;
+    h+='<button class="chipbtn" type="button" data-p="'+x.k+'" aria-pressed="'+(filterP===x.k)+'">'+x.l+' <b>'+ab+'</b></button>';
+  });
   var el=document.getElementById("filters"); el.innerHTML=h;
   Array.prototype.forEach.call(el.querySelectorAll("button"),function(b){
     b.addEventListener("click",function(){
       if(b.getAttribute("data-f")) filterC=b.getAttribute("data-f");
+      else if(b.getAttribute("data-p")) filterP=b.getAttribute("data-p");
       else if(b.getAttribute("data-t")==="open") onlyOpen=!onlyOpen; else onlyCrit=!onlyCrit;
       renderFilters(); renderWeeks(); renderCal();
     });
@@ -468,8 +484,17 @@ function taskHtml(t){
     '<div class="body"><div class="ttl">'+t.t+'</div>'+(t.det?'<div class="det">'+t.det+'</div>':'')+'<div class="meta">'+tags+'</div></div></div>';
 }
 
+function esDe(t,pk){
+  for(var i=0;i<PERSONAS.length;i++){
+    if(PERSONAS[i].k!==pk) continue;
+    var m=PERSONAS[i].m;
+    for(var j=0;j<m.length;j++) if(t.o.indexOf(m[j])>=0) return true;
+  }
+  return false;
+}
 function pass(t){
   if(filterC!=="ALL"&&t.c!==filterC) return false;
+  if(filterP!=="ALL"&&!esDe(t,filterP)) return false;
   if(onlyOpen&&isDone(t.id)) return false;
   if(onlyCrit&&!t.crit) return false;
   return true;
@@ -538,7 +563,7 @@ function renderCal(){
   });
 }
 
-function renderAll(){ renderKpis(); renderAlerts(); renderChart(); renderWeeks(); renderCal(); }
+function renderAll(){ renderKpis(); renderAlerts(); renderChart(); renderFilters(); renderWeeks(); renderCal(); }
 
 loadLocal();
 renderFilters(); renderInputs(); renderAll();
@@ -553,12 +578,6 @@ function setTab(which){
 }
 document.getElementById("tab-plan").addEventListener("click",function(){ setTab("plan"); });
 document.getElementById("tab-cal").addEventListener("click",function(){ setTab("cal"); });
-
-document.getElementById("theme").addEventListener("click",function(){
-  var r=document.documentElement;
-  var dark=getComputedStyle(r).getPropertyValue("--bg").trim().indexOf("#07")===0;
-  r.setAttribute("data-theme",dark?"light":"dark"); renderChart();
-});
 
 if(window.claude&&typeof window.claude.use==="function"){
   window.claude.use("db").then(function(d){
